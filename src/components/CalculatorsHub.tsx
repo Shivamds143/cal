@@ -1,23 +1,15 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Calculator as CalcIcon, 
   ArrowRight, 
   Search, 
-  Sparkles, 
-  GraduationCap, 
-  BookOpen, 
-  Target, 
-  UserCheck, 
-  Layers 
+  Sparkles
 } from 'lucide-react';
 import { CALCULATORS } from '../data/calculators';
 import { CalculatorCategory } from '../types/calculator';
 
-interface CalculatorsHubProps {
-  onNavigate: (slug: string) => void;
-}
-
-export const CalculatorsHub: React.FC<CalculatorsHubProps> = ({ onNavigate }) => {
+export const CalculatorsHub: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<'all' | CalculatorCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -48,9 +40,9 @@ export const CalculatorsHub: React.FC<CalculatorsHubProps> = ({ onNavigate }) =>
           <Sparkles className="w-3.5 h-3.5" />
           <span>Complete SPPU Suite</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
           All 17 SPPU Student Calculators
-        </h1>
+        </h2>
         <p className="mt-3 text-sm sm:text-base text-slate-600">
           From CBCS CGPA conversions to In-Sem passing criteria and 75% attendance planning—select any calculator below to get instant results.
         </p>
@@ -94,13 +86,10 @@ export const CalculatorsHub: React.FC<CalculatorsHubProps> = ({ onNavigate }) =>
       {/* Grid of Calculators */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map(calc => (
-          <div
+          <Link
             key={calc.id}
-            onClick={() => {
-              onNavigate(calc.slug);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className="group bg-white rounded-3xl p-6 border border-slate-200/90 hover:border-blue-400 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+            to={`/${calc.slug}`}
+            className="group bg-white rounded-3xl p-6 border border-slate-200/90 hover:border-blue-400 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 cursor-pointer flex flex-col justify-between block"
           >
             <div>
               {/* Card Top: Icon & Badge */}
@@ -116,9 +105,9 @@ export const CalculatorsHub: React.FC<CalculatorsHubProps> = ({ onNavigate }) =>
               </div>
 
               {/* Title & Description */}
-              <h2 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">
+              <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">
                 {calc.title}
-              </h2>
+              </h3>
               <p className="text-xs sm:text-sm text-slate-500 mt-2 line-clamp-2 leading-relaxed">
                 {calc.description}
               </p>
@@ -134,7 +123,7 @@ export const CalculatorsHub: React.FC<CalculatorsHubProps> = ({ onNavigate }) =>
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 

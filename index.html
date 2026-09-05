@@ -3,22 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SPPU Calculator — Simple. Fast. Accurate Academic Calculators</title>
-    <meta name="description" content="Free online calculators for SPPU students. Calculate CGPA to percentage, SGPA to CGPA, passing marks, semester GPA, attendance, and marks percentage in seconds." />
-    <meta property="og:title" content="SPPU Calculator — Simple. Fast. Accurate Academic Calculators" />
-    <meta property="og:description" content="Free online calculators for SPPU students. Calculate CGPA to percentage, SGPA to CGPA, passing marks, semester GPA, attendance, and marks percentage in seconds." />
+    
+    <!-- Default title/description — overridden per-page by react-helmet-async -->
+    <title>SPPU Calculator — Free CGPA, SGPA, Percentage & Marks Calculators</title>
+    <meta name="description" content="Free online calculators for SPPU (Pune University) students. Convert CGPA to percentage, SGPA to CGPA, calculate passing marks, attendance, and marks percentage in seconds." />
+    
+    <!-- Default Open Graph (overridden per-page) -->
+    <meta property="og:title" content="SPPU Calculator — Free CGPA, SGPA, Percentage & Marks Calculators" />
+    <meta property="og:description" content="Free online calculators for SPPU (Pune University) students. Convert CGPA to percentage, SGPA to CGPA, calculate passing marks, attendance, and marks percentage in seconds." />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://sppucalc.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="keywords" content="SPPU CGPA calculator, SPPU CGPA to percentage, SPPU SGPA calculator, SPPU SGPA to CGPA, SPPU percentage calculator, SPPU marks calculator, SPPU passing marks calculator, Pune University calculator" />
+    <meta name="twitter:image" content="https://sppucalc.com/og-image.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     
     <!-- Preconnect & Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#1e40af" />
   </head>
   <body class="font-sans antialiased text-slate-800 bg-slate-50 selection:bg-blue-100 selection:text-blue-900">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

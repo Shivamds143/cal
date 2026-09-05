@@ -1,12 +1,9 @@
 import React from 'react';
-import { GraduationCap, ShieldCheck, Heart, Sparkles, ExternalLink, ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { GraduationCap, ShieldCheck, Heart } from 'lucide-react';
 import { CALCULATORS } from '../data/calculators';
 
-interface FooterProps {
-  onNavigate: (slug: string) => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+export const Footer: React.FC = () => {
   const gpaCalcs = CALCULATORS.filter(c => c.category === 'gpa');
   const marksCalcs = CALCULATORS.filter(c => c.category === 'marks');
   const utilityCalcs = CALCULATORS.filter(c => c.category === 'utility');
@@ -19,14 +16,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           
           {/* Col 1: Brand & Mission */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-white shadow-lg">
                 <GraduationCap className="w-5 h-5" />
               </div>
               <span className="font-extrabold text-xl text-white tracking-tight">
                 SPPU<span className="text-blue-400">Calc</span>
               </span>
-            </div>
+            </Link>
 
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
               Free, accurate, and student-first academic calculators designed specifically for students of Savitribai Phule Pune University (SPPU). Built to calculate CGPA, SGPA, percentage, marks, and passing criteria in seconds.
@@ -46,15 +43,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-2.5 text-xs text-slate-400">
               {gpaCalcs.map(calc => (
                 <li key={calc.id}>
-                  <button
-                    onClick={() => {
-                      onNavigate(calc.slug);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className="hover:text-blue-400 transition-colors text-left"
+                  <Link
+                    to={`/${calc.slug}`}
+                    className="hover:text-blue-400 transition-colors"
                   >
                     {calc.shortTitle}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -68,15 +62,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-2.5 text-xs text-slate-400">
               {marksCalcs.map(calc => (
                 <li key={calc.id}>
-                  <button
-                    onClick={() => {
-                      onNavigate(calc.slug);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className="hover:text-blue-400 transition-colors text-left"
+                  <Link
+                    to={`/${calc.slug}`}
+                    className="hover:text-blue-400 transition-colors"
                   >
                     {calc.shortTitle}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -90,15 +81,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-2.5 text-xs text-slate-400">
               {utilityCalcs.map(calc => (
                 <li key={calc.id}>
-                  <button
-                    onClick={() => {
-                      onNavigate(calc.slug);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className="hover:text-blue-400 transition-colors text-left"
+                  <Link
+                    to={`/${calc.slug}`}
+                    className="hover:text-blue-400 transition-colors"
                   >
                     {calc.shortTitle}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>

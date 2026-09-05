@@ -1,14 +1,11 @@
 import React, { useMemo, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, Sparkles, GraduationCap, ArrowRight } from 'lucide-react';
 import { CALCULATORS } from '../data/calculators';
 
-interface HomeHeroProps {
-  onOpenSearch: () => void;
-  onNavigate: (slug: string) => void;
-}
-
-export const HomeHero: React.FC<HomeHeroProps> = ({ onOpenSearch, onNavigate }) => {
+export const HomeHero: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const popularCards = useMemo(() => {
     const order = [
@@ -29,10 +26,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onOpenSearch, onNavigate }) 
     event?.preventDefault();
 
     const query = searchQuery.trim().toLowerCase();
-    if (!query) {
-      onOpenSearch();
-      return;
-    }
+    if (!query) return;
 
     const directMatch = CALCULATORS.find(
       calc =>
@@ -42,11 +36,11 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onOpenSearch, onNavigate }) 
     );
 
     if (directMatch) {
-      onNavigate(directMatch.slug);
+      navigate(`/${directMatch.slug}`);
       return;
     }
 
-    onOpenSearch();
+    navigate('/calculators');
   };
 
   return (
@@ -108,11 +102,10 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onOpenSearch, onNavigate }) 
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {popularCards.map(calc => (
-              <button
+              <Link
                 key={calc.id}
-                type="button"
-                onClick={() => onNavigate(calc.slug)}
-                className="group rounded-3xl border border-slate-200 bg-white p-5 text-left shadow-[0_10px_30px_rgba(15,23,42,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-[0_18px_40px_rgba(59,130,246,0.12)] active:scale-[0.99]"
+                to={`/${calc.slug}`}
+                className="group rounded-3xl border border-slate-200 bg-white p-5 text-left shadow-[0_10px_30px_rgba(15,23,42,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-[0_18px_40px_rgba(59,130,246,0.12)] active:scale-[0.99] block"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-600 shadow-sm">
@@ -138,7 +131,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onOpenSearch, onNavigate }) 
                   Calculate
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </div>
-              </button>
+              </Link>
             ))}
           </div>
         </div>

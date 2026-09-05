@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   Calculator, 
   Search, 
@@ -14,13 +15,12 @@ import {
 
 interface HeaderProps {
   onOpenSearch: () => void;
-  activeTab: string;
-  onNavigate: (slug: string) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenSearch, activeTab, onNavigate }) => {
+export const Header: React.FC<HeaderProps> = ({ onOpenSearch }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,17 +30,16 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, activeTab, onNavig
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  /**
-   * Reusable toggle function for mobile navigation drawer
-   */
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(prev => !prev);
   };
 
-  const handleMobileNav = (slug: string) => {
-    onNavigate(slug);
-    setMobileMenuOpen(false);
-  };
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <header 
@@ -55,9 +54,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, activeTab, onNavig
         <div className="flex items-center justify-between h-16 sm:h-18">
           
           {/* Logo & Brand */}
-          <button 
+          <Link 
+            to="/"
             id="header-logo-btn"
-            onClick={() => handleMobileNav('home')}
             aria-label="SPPUCalc Home"
             className="flex items-center gap-3 group text-left focus:outline-hidden transition-all duration-200 active:scale-95 active:translate-y-0.5 hover:scale-[1.01] cursor-pointer"
           >
@@ -77,27 +76,27 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, activeTab, onNavig
                 Academic Calculations for Students
               </p>
             </div>
-          </button>
+          </Link>
 
           {/* Desktop Navigation Links (Hidden below 768px) */}
           <nav className="hidden md:flex items-center gap-1 lg:gap-2">
-            <button
+            <Link
+              to="/"
               id="nav-home-link"
-              onClick={() => onNavigate('home')}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 active:scale-95 active:translate-y-0.5 hover:scale-[1.02] cursor-pointer ${
-                activeTab === 'home'
+                isActive('/')
                   ? 'bg-blue-50 text-blue-700 font-semibold'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80'
               }`}
             >
               Home
-            </button>
+            </Link>
 
-            <button
+            <Link
+              to="/calculators"
               id="nav-calculators-link"
-              onClick={() => onNavigate('calculators-hub')}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 active:scale-95 active:translate-y-0.5 hover:scale-[1.02] cursor-pointer flex items-center gap-1.5 ${
-                activeTab === 'calculators-hub'
+                isActive('/calculators')
                   ? 'bg-blue-50 text-blue-700 font-semibold'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80'
               }`}
@@ -107,43 +106,43 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, activeTab, onNavig
               <span className="text-[10px] bg-slate-200 text-slate-700 font-bold px-1.5 py-0.2 rounded-full">
                 17
               </span>
-            </button>
+            </Link>
 
-            <button
+            <Link
+              to="/sppu-cgpa-to-percentage"
               id="nav-cgpa-link"
-              onClick={() => onNavigate('sppu-cgpa-to-percentage')}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 active:scale-95 active:translate-y-0.5 hover:scale-[1.02] cursor-pointer ${
-                activeTab === 'sppu-cgpa-to-percentage'
+                isActive('/sppu-cgpa-to-percentage')
                   ? 'bg-blue-50 text-blue-700 font-semibold'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80'
               }`}
             >
               CGPA → %
-            </button>
+            </Link>
 
-            <button
+            <Link
+              to="/how-it-works"
               id="nav-how-it-works-link"
-              onClick={() => onNavigate('how-it-works')}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 active:scale-95 active:translate-y-0.5 hover:scale-[1.02] cursor-pointer ${
-                activeTab === 'how-it-works'
+                isActive('/how-it-works')
                   ? 'bg-blue-50 text-blue-700 font-semibold'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80'
               }`}
             >
               How It Works
-            </button>
+            </Link>
 
-            <button
+            <Link
+              to="/about"
               id="nav-about-link"
-              onClick={() => onNavigate('about')}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 active:scale-95 active:translate-y-0.5 hover:scale-[1.02] cursor-pointer ${
-                activeTab === 'about'
+                isActive('/about')
                   ? 'bg-blue-50 text-blue-700 font-semibold'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80'
               }`}
             >
               About & FAQs
-            </button>
+            </Link>
           </nav>
 
           {/* Right Action Bar */}
@@ -163,14 +162,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, activeTab, onNavig
             </button>
 
             {/* Popular Shortcut Pill */}
-            <button
+            <Link
+              to="/sppu-cgpa-to-percentage"
               id="header-popular-shortcut-btn"
-              onClick={() => onNavigate('sppu-cgpa-to-percentage')}
               className="hidden xl:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition-all duration-200 active:scale-95 active:translate-y-0.5 hover:scale-[1.02] cursor-pointer shadow-xs"
             >
               <Sparkles className="w-3.5 h-3.5" />
               CGPA to %
-            </button>
+            </Link>
 
             {/* Mobile Hamburger Toggle Button */}
             <button
@@ -197,19 +196,19 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, activeTab, onNavig
             Quick Navigation
           </div>
           <div className="grid grid-cols-1 gap-1">
-            <button
-              onClick={() => handleMobileNav('home')}
-              className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-98 cursor-pointer ${
-                activeTab === 'home' ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-50'
+            <Link
+              to="/"
+              className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 active:scale-98 cursor-pointer block ${
+                isActive('/') ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-50'
               }`}
             >
               🏠 Home
-            </button>
+            </Link>
 
-            <button
-              onClick={() => handleMobileNav('calculators-hub')}
+            <Link
+              to="/calculators"
               className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-between transition-all duration-200 active:scale-98 cursor-pointer ${
-                activeTab === 'calculators-hub' ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-50'
+                isActive('/calculators') ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-50'
               }`}
             >
               <span className="flex items-center gap-2">
@@ -217,47 +216,47 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, activeTab, onNavig
                 All 17 Calculators
               </span>
               <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full font-bold">17</span>
-            </button>
+            </Link>
 
-            <button
-              onClick={() => handleMobileNav('sppu-cgpa-to-percentage')}
+            <Link
+              to="/sppu-cgpa-to-percentage"
               className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2 transition-all duration-200 active:scale-98 cursor-pointer"
             >
               <Sparkles className="w-4 h-4 text-blue-600" />
               SPPU CGPA to Percentage
-            </button>
+            </Link>
 
-            <button
-              onClick={() => handleMobileNav('sppu-sgpa-to-cgpa')}
+            <Link
+              to="/sppu-sgpa-to-cgpa"
               className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2 transition-all duration-200 active:scale-98 cursor-pointer"
             >
               <TrendingUp className="w-4 h-4 text-blue-600" />
               SGPA to CGPA (Multi-Sem)
-            </button>
+            </Link>
 
-            <button
-              onClick={() => handleMobileNav('internal-external-marks')}
+            <Link
+              to="/internal-external-marks"
               className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2 transition-all duration-200 active:scale-98 cursor-pointer"
             >
               <FileCheck2 className="w-4 h-4 text-blue-600" />
               30 In-Sem + 70 End-Sem Rules
-            </button>
+            </Link>
 
-            <button
-              onClick={() => handleMobileNav('how-it-works')}
+            <Link
+              to="/how-it-works"
               className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2 transition-all duration-200 active:scale-98 cursor-pointer"
             >
               <BookOpen className="w-4 h-4 text-blue-600" />
               How It Works
-            </button>
+            </Link>
 
-            <button
-              onClick={() => handleMobileNav('about')}
+            <Link
+              to="/about"
               className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2 transition-all duration-200 active:scale-98 cursor-pointer"
             >
               <HelpCircle className="w-4 h-4 text-blue-600" />
               About SPPU Grading & FAQs
-            </button>
+            </Link>
           </div>
         </div>
       )}

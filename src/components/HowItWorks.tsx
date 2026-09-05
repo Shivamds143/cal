@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { 
   BookOpen, 
   CheckCircle2, 
@@ -10,11 +11,7 @@ import {
   Calculator
 } from 'lucide-react';
 
-interface HowItWorksProps {
-  onNavigate: (slug: string) => void;
-}
-
-export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
+export const HowItWorks: React.FC = () => {
   return (
     <div id="how-it-works-page" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-12">
       
@@ -111,14 +108,14 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
         </div>
 
         <div className="pt-2">
-          <button
-            onClick={() => onNavigate('sppu-cgpa-to-percentage')}
+          <Link
+            to="/sppu-cgpa-to-percentage"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm transition-colors shadow-xs"
           >
             <Calculator className="w-4 h-4" />
             <span>Try SPPU CGPA to Percentage Calculator</span>
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -161,14 +158,14 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
         </div>
 
         <div className="pt-2">
-          <button
-            onClick={() => onNavigate('internal-external-marks')}
+          <Link
+            to="/internal-external-marks"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm transition-colors shadow-xs"
           >
             <ShieldCheck className="w-4 h-4" />
             <span>Check In-Sem / End-Sem Marks Rule</span>
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -193,14 +190,14 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onNavigate }) => {
         </p>
 
         <div className="pt-2">
-          <button
-            onClick={() => onNavigate('required-attendance')}
+          <Link
+            to="/required-attendance"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm transition-colors shadow-xs"
           >
             <CheckCircle2 className="w-4 h-4" />
             <span>Open 75% Attendance & Bunk Planner</span>
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </Link>
         </div>
       </section>
 

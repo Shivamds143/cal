@@ -1,17 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, X, Calculator, ArrowRight } from 'lucide-react';
 import { CALCULATORS } from '../data/calculators';
 
 interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (slug: string) => void;
 }
 
-export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSelect }) => {
+export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
   const [query, setQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+
+  const handleSelect = (slug: string) => {
+    navigate(`/${slug}`);
+    onClose();
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -54,8 +60,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && filtered.length > 0) {
       e.preventDefault();
-      onSelect(filtered[0].slug);
-      onClose();
+      handleSelect(filtered[0].slug);
     }
   };
 
@@ -131,10 +136,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
             filtered.map((calc, idx) => (
               <button
                 key={calc.id}
-                onClick={() => {
-                  onSelect(calc.slug);
-                  onClose();
-                }}
+                onClick={() => handleSelect(calc.slug)}
                 className="w-full p-3 rounded-2xl hover:bg-blue-50/60 transition-all duration-200 flex items-center justify-between text-left group active:scale-[0.99] cursor-pointer"
               >
                 <div className="flex items-start gap-3 pr-2">

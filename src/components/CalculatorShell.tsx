@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   ChevronRight, 
   Sparkles, 
@@ -36,10 +37,9 @@ import {
 
 interface CalculatorShellProps {
   slug: string;
-  onNavigate: (slug: string) => void;
 }
 
-export const CalculatorShell: React.FC<CalculatorShellProps> = ({ slug, onNavigate }) => {
+export const CalculatorShell: React.FC<CalculatorShellProps> = ({ slug }) => {
   const currentCalc = CALCULATORS.find(c => c.slug === slug) || CALCULATORS[0];
   
   const [illustrationState, setIllustrationState] = useState<IllustrationState>('idle');
@@ -194,15 +194,15 @@ export const CalculatorShell: React.FC<CalculatorShellProps> = ({ slug, onNaviga
   return (
     <div id="calculator-page-container" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       
-      {/* Breadcrumbs */}
-      <nav className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-6 overflow-x-auto whitespace-nowrap">
-        <button onClick={() => onNavigate('home')} className="hover:text-blue-600 transition-colors">
+      {/* Breadcrumbs — using real anchor tags for crawlability */}
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-6 overflow-x-auto whitespace-nowrap">
+        <Link to="/" className="hover:text-blue-600 transition-colors">
           Home
-        </button>
+        </Link>
         <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-        <button onClick={() => onNavigate('calculators-hub')} className="hover:text-blue-600 transition-colors">
+        <Link to="/calculators" className="hover:text-blue-600 transition-colors">
           Calculators
-        </button>
+        </Link>
         <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
         <span className="font-semibold text-slate-800">{currentCalc.shortTitle}</span>
       </nav>
@@ -330,7 +330,7 @@ export const CalculatorShell: React.FC<CalculatorShellProps> = ({ slug, onNaviga
         )}
       </section>
 
-      {/* FAQs Section for this Calculator */}
+      {/* FAQs Section — All answers rendered in DOM for Googlebot (not hidden) */}
       {currentCalc.faqs && currentCalc.faqs.length > 0 && (
         <section className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 mb-10">
           <div className="flex items-center gap-3 mb-6">
@@ -362,28 +362,37 @@ export const CalculatorShell: React.FC<CalculatorShellProps> = ({ slug, onNaviga
                   )}
                 </button>
 
-                {openFaqIndex === idx && (
-                  <p className="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed pr-6 animate-in fade-in">
+                {/* 
+                  SEO: Answers are always in the DOM for Googlebot.
+                  Visual hide/show is done via max-height + overflow, not conditional rendering.
+                */}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    openFaqIndex === idx ? 'max-h-96 opacity-100 mt-3' : 'max-h-0 opacity-0'
+                  }`}
+                  aria-hidden={openFaqIndex !== idx}
+                >
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed pr-6">
                     {faq.answer}
                   </p>
-                )}
+                </div>
               </div>
             ))}
           </div>
         </section>
       )}
 
-      {/* Related Calculators Grid */}
+      {/* Related Calculators Grid — using Link for crawlability */}
       <section className="mt-12">
         <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-5">
           Related SPPU Calculators
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {relatedCalculators.map(calc => (
-            <button
+            <Link
               key={calc.id}
-              onClick={() => onNavigate(calc.slug)}
-              className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex flex-col justify-between group"
+              to={`/${calc.slug}`}
+              className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all text-left flex flex-col justify-between group block"
             >
               <div>
                 <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center mb-3 group-hover:bg-blue-600 group-hover:text-white transition-colors">
@@ -401,7 +410,7 @@ export const CalculatorShell: React.FC<CalculatorShellProps> = ({ slug, onNaviga
                 <span>Calculate Now</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
-            </button>
+            </Link>
           ))}
         </div>
       </section>
