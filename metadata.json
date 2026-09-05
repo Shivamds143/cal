@@ -1,0 +1,6 @@
+{
+  "name": "SPPU Calculator",
+  "description": "Fast, accurate and free academic calculators for Savitribai Phule Pune University (SPPU) students. Calculate CGPA to percentage, SGPA to CGPA, passing marks, target GPA, and marks percentage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
